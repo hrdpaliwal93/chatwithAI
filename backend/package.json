@@ -1,0 +1,20 @@
+{
+  "name": "index.ts",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "mpx tsc -b && node ./dist/index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/ws": "^8.18.1",
+    "typescript": "^6.0.3",
+    "ws": "^8.21.0"
+  }
+}
