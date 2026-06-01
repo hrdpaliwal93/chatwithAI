@@ -1,7 +1,29 @@
 import dotenv from 'dotenv'
 dotenv.config()
+
 import { WebSocketServer } from "ws";
-const wss = new WebSocketServer({port:8000})
+import express from 'express';
+import http from 'http';
+import { v4 as uuidv4 } from 'uuid'; // Run: npm install uuid && npm install --save-dev @types/uuid
+
+const app = express();
+const server = http.createServer(app);
+const wss = new WebSocketServer({server})
+
+app.use(express.json());
+
+
+
+app.get('/create', (req, res)=>{
+    const {name, roomName, isPublic, limit} :{name:string, roomName:string, isPublic:boolean, limit:number} = req.body;
+    
+
+
+})
+
+
+
+
 let count = 0;
 wss.on('connection', (socket)=>{
     count++;
@@ -45,3 +67,5 @@ wss.on('connection', (socket)=>{
 
 
 })
+
+server.listen(8000)
