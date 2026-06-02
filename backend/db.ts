@@ -1,12 +1,14 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose, { model } from "mongoose";
 
 
 
 const userSchema = new mongoose.Schema({
-    name:String
+    username:{type:String, required:true},
+    password:{type:String, unique:true, required:true}
     
 })
 const roomSchema = new mongoose.Schema({
+    roomID:{type:String , unique:true,  required:true},
     roomName:{type:String},
     created_by:{type:mongoose.Types.ObjectId, required:true, ref:'User'},
     limit:{type:Number, default:0},
@@ -21,3 +23,9 @@ const messageSchema = new mongoose.Schema({
     timestamp:{type:Date},
     status:{type:String,enum:message_status , required:true}
 })
+
+
+export const userModel = model('User', userSchema)
+export const roomModel = model('Room', roomSchema)
+export const messageModel = model('Message', messageSchema)
+
