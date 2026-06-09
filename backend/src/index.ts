@@ -1,16 +1,12 @@
 import dotenv from 'dotenv'
 dotenv.config()
-
 import jwt from 'jsonwebtoken'
-
+import { customAlphabet } from 'nanoid';
 import { WebSocketServer } from "ws";
 import express from 'express';
 import http from 'http';
-
 import { userModel, roomModel } from '../db.js';
-
 import Authmiddleware from './Authmiddleware.js';
-import { customAlphabet } from 'nanoid';
 import mongoose from 'mongoose';
 
 
@@ -52,27 +48,31 @@ app.post('/login',async (req,res)=>{
 })
 
 
-
 app.post('/create', Authmiddleware , async (req, res)=>{
     const { roomName, isPublic, limit} :{roomName:string, isPublic:boolean, limit:number} = req.body;
     const id = req.id
-    if(id){
-        await  roomModel.create({
+    try{
+         const room =  await  roomModel.create({
         roomID:customAlphabet('ABCDEFGHIJKLMNOPQURSTUVWXYZ0123456789', 6)(),
         roomName,
         isPublic,
         limit,
-        created_by:id
+        created_by:new mongoose.Types.ObjectId(id)
 
     })
-    }else {
-        res.json({message:"not authorized", success:false})
-    }
-   
-    
+    res.json({message:"room created successfuly", roomID:room.roomID , success:true});
+
+
+}catch(e){
+    console.error(e)
+}
+     
+
 
 
 })
+
+
 
 let count = 0;
 wss.on('connection', (socket)=>{
